@@ -6,7 +6,6 @@ import java.util.Date;
 
 public class EventDetails extends ParsedElement {
 
-    private final int orderId;
     private final String eventName;
     private final String eventDate;
     private final String venue;
@@ -14,22 +13,16 @@ public class EventDetails extends ParsedElement {
     private final String attendance;
 
 
-    public EventDetails(int orderId,
-                        String eventName,
+    public EventDetails(String eventName,
                         String eventDate,
                         String venue,
                         String location,
                         String attendance) {
-        this.orderId = orderId;
         this.eventName = eventName;
         this.eventDate = eventDate;
         this.venue = venue;
         this.location = location;
         this.attendance = attendance;
-    }
-
-    public int getOrderId() {
-        return orderId;
     }
 
     public String getEventName() {
@@ -54,8 +47,7 @@ public class EventDetails extends ParsedElement {
 
     @Override
     public String toString() {
-        return "|%s \t %s \t %s \t %s \t %s \t %s |".formatted(
-                orderId,
+        return "|%s \t %s \t %s \t %s \t %s |".formatted(
                 eventName,
                 eventDate,
                 venue,

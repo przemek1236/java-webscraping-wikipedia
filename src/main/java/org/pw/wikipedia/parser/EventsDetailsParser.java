@@ -7,15 +7,32 @@ import org.pw.wikipedia.parsedelements.EventDetails;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jsoup.select.Elements;
-import org.jsoup.nodes.Element;
 
 public class EventsDetailsParser implements Parser<EventDetails> {
     @Override
     public List<EventDetails> parse(Document doc) {
-        // TODO finish implementation of parsing event details
-        Elements elements = doc.select("table#Past_events > tbody");
-        elements.forEach(x -> System.out.println(x.select("td")));
-        return new ArrayList<EventDetails>();
+        List<EventDetails> eventsDetails = new ArrayList<>();
+        eventsDetails.add( new EventDetails(
+                getTitle(doc),
+                getInfoboxLabelInformation(doc, "Date"),
+                getInfoboxLabelInformation(doc, "Venue"),
+                getInfoboxLabelInformation(doc, "City"),
+                getInfoboxLabelInformation(doc, "Attendance")
+        ));
+
+
+        return eventsDetails;
+    }
+
+    protected String getTitle(Document doc) {
+        return doc.select("span.mw-page-title-main").text();
+    }
+
+    protected String getDescription(Document doc) {
+        return doc.select("table.infobox tr").text();
+    }
+
+    protected String getInfoboxLabelInformation(Document doc, String label) {
+        return doc.select("th.infobox-label:contains(%s) + td.infobox-data".formatted(label)).text();
     }
 }

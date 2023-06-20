@@ -1,8 +1,8 @@
 package org.pw.wikipedia;
 
 public enum URL {
-    BASE("https://en.wikipedia.org/wiki"),
-    UFC_EVENTS("/List_of_UFC_events");
+    BASE("https://en.wikipedia.org/"),
+    UFC_EVENTS("/wiki/List_of_UFC_events");
 
     private final String value;
 
