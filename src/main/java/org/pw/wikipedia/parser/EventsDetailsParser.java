@@ -14,6 +14,7 @@ public class EventsDetailsParser implements Parser<EventDetails> {
         List<EventDetails> eventsDetails = new ArrayList<>();
         eventsDetails.add( new EventDetails(
                 getTitle(doc),
+                getDescription(doc),
                 getInfoboxLabelInformation(doc, "Date"),
                 getInfoboxLabelInformation(doc, "Venue"),
                 getInfoboxLabelInformation(doc, "City"),
