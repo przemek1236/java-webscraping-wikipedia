@@ -2,15 +2,15 @@ package org.pw.wikipedia.parsedelements;
 
 import org.pw.core.ParsedElement;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 public class EventDetails extends ParsedElement {
 
     private final String eventName;
     private final String description;
-    private final Date eventDate;
+    private final LocalDate eventDate;
     private final String venue;
     private final String location;
     private final String attendance;
@@ -38,7 +38,7 @@ public class EventDetails extends ParsedElement {
         return description;
     }
 
-    public Date getEventDate() {
+    public LocalDate getEventDate() {
         return eventDate;
     }
 
@@ -54,22 +54,21 @@ public class EventDetails extends ParsedElement {
         return attendance;
     }
 
-    private Date parseDate(String date) {
+    private LocalDate parseDate(String date) {
         String[] splitDate = date.split(" ");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("y-M-d");
-        try {
-            return simpleDateFormat.parse(splitDate[splitDate.length - 1].substring(1, 11));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            throw new IllegalArgumentException("Date (%s) could not conform format".formatted(date));
-        }
+        DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
+                .appendPattern("yyyy-MM-dd")
+                .toFormatter();
+
+        return LocalDate.parse(splitDate[splitDate.length - 1].substring(1, 11), dateTimeFormatter);
+
     }
 
     @Override
     public String toString() {
         return "|%s \t %s \t %s \t %s \t %s \t %s |".formatted(
                 eventName,
-                description,
+                description.substring(0, 10) + "...",
                 eventDate,
                 venue,
                 location,

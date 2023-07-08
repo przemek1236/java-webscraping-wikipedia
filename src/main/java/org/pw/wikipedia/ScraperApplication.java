@@ -1,12 +1,12 @@
 package org.pw.wikipedia;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.pw.core.URLFetcher;
 import org.pw.wikipedia.parsedelements.EventDetails;
 import org.pw.wikipedia.parsedelements.EventLink;
 import org.pw.wikipedia.parser.EventsDetailsParser;
 import org.pw.wikipedia.parser.PastEventsParser;
+import org.pw.core.writers.CSVWriter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,6 +37,7 @@ public class ScraperApplication {
 
         Document eventDoc;
 
+        int counter = 0;
         List<EventDetails> eventDetails = new ArrayList<>();
         for (var eventUrl : eventsUrls) {
             try {
@@ -47,9 +48,17 @@ public class ScraperApplication {
             }
 
             eventDetails.add(eventsDetailsParser.parse(eventDoc).get(0));
+            counter++;
+            if (counter == 15) {
+                break;
+            }
         }
 
-        eventDetails.forEach(x -> System.out.println(x));
+        CSVWriter csvWriter = new CSVWriter.Builder()
+                .header(true)
+                .delimiter(";")
+                .build();
+        csvWriter.write(eventDetails, "event_link_test.txt");
 
 
     }
